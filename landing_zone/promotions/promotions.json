@@ -1,0 +1,5 @@
+[
+    {"promo_id": "PR001", "description": "Summer Sale", "discount": 0.10, "applicable_products": ["P001", "P003"]},
+    {"promo_id": "PR002", "description": "Black Friday", "discount": 0.20, "applicable_products": ["P002", "P004"]},
+    {"promo_id": "PR003", "description": "New Year Sale", "discount": 0.15, "applicable_products": ["P001", "P002", "P003"]}
+]

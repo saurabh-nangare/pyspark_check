@@ -1,14 +1,10 @@
 import json
-from pyspark.sql.types import StructType
 import logging
 import logging.config
 import get_variables as gav
-import ast
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType
-from pyspark.sql.functions import udf, col
 logging.config.fileConfig(gav.configs['logging_paths']['running_logconf_path'])
 logger = logging.getLogger('Utils')
-
 
 
 def get_schema_from_json_file(spark,schema_file_path):
@@ -23,7 +19,7 @@ def get_schema_from_json_file(spark,schema_file_path):
     return json_schema
 
 
-def get_customers_dataframe(spark, schema, source_file_path):
+def get_source_dataframe(spark, schema, source_file_path):
     try:
         source_df = (spark.read
                      .schema(schema)

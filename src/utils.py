@@ -37,3 +37,55 @@ def get_source_dataframe(spark, schema, source_file_path):
         source_df = source_df.na.drop()
         logger.info('dropping null records if any has been completed for {}'.format(source_file_path))
     return source_df
+
+
+def get_all_source_df(spark):
+    try:
+        customers_source_path = gav.get_source_paths('customers')
+        customers_schema_path = gav.get_schema_path('customers')
+        customers_schema = get_schema_from_json_file(spark, customers_schema_path)
+        customers_df = get_source_dataframe(spark, customers_schema, customers_source_path)
+
+    except Exception as msg:
+        logger.error("can not create customers dataframe, error occured = {}".format(msg))
+
+    try:
+        promotions_source_path = gav.get_source_paths('promotions')
+        promotions_schema_path = gav.get_schema_path('promotions')
+        promotions_schema = get_schema_from_json_file(spark, promotions_schema_path)
+        promotions_df = get_source_dataframe(spark, promotions_schema, promotions_source_path)
+
+    except Exception as msg:
+        logger.error("can not create promotions dataframe, error occured = {}".format(msg))
+
+    try:
+        products_source_path = gav.get_source_paths('products')
+        products_schema_path = gav.get_schema_path('products')
+        products_schema = get_schema_from_json_file(spark, products_schema_path)
+        products_df = get_source_dataframe(spark, products_schema, products_source_path)
+
+    except Exception as msg:
+        logger.error("can not create products dataframe, error occured = {}".format(msg))
+
+    try:
+        transactions_source_path = gav.get_source_paths('transactions')
+        transactions_schema_path = gav.get_schema_path('transactions')
+        transactions_schema = get_schema_from_json_file(spark, transactions_schema_path)
+        transactions_df = get_source_dataframe(spark, transactions_schema, transactions_source_path)
+
+    except Exception as msg:
+        logger.error("can not create transactions dataframe, error occured = {}".format(msg))
+
+    try:
+        return_products_source_path = gav.get_source_paths('return_products')
+        return_products_schema_path = gav.get_schema_path('return_products')
+        return_products_schema = get_schema_from_json_file(spark, return_products_schema_path)
+        return_products_df = get_source_dataframe(spark, return_products_schema, return_products_source_path)
+
+    except Exception as msg:
+        logger.error("can not create transactions dataframe, error occured = {}".format(msg))
+
+    return (customers_df, promotions_df, products_df, transactions_df, return_products_df)
+
+
+

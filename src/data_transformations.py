@@ -34,7 +34,7 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
                                                     transactions_customers_df_joined.join(products_df, "product_id")
                                                     .withColumn("total_price_before_discount_tax", col("price") * col("quantity"))
                                                     )
-        promotions_df = promotions_df.withColumn('applicable_products', explode('applicable_products'))
+
         # Join with promotions to get discount details
         transactions_customers_products_promos_df_joined = (
                                                 transactions_customers_products_df_joined.join(promotions_df,

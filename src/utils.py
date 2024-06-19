@@ -3,6 +3,7 @@ import logging
 import logging.config
 import get_variables as gav
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType
+from pyspark.sql.functions import explode
 logging.config.fileConfig(gav.configs['logging_paths']['running_logconf_path'])
 logger = logging.getLogger('Utils')
 
@@ -54,6 +55,7 @@ def get_all_source_df(spark):
         promotions_schema_path = gav.get_schema_path('promotions')
         promotions_schema = get_schema_from_json_file(spark, promotions_schema_path)
         promotions_df = get_source_dataframe(spark, promotions_schema, promotions_source_path)
+        promotions_df = promotions_df.withColumn('applicable_products', explode('applicable_products'))
 
     except Exception as msg:
         logger.error("can not create promotions dataframe, error occured = {}".format(msg))

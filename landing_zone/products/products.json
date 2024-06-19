@@ -1,0 +1,6 @@
+[
+    {"product_id": "P001", "description": "Smartphone", "attribute": {"brand": "Samsung", "model": "Black"}, "price": 500, "tax_rate": 0.15},
+    {"product_id": "P002", "description": "Laptop", "attribute": {"brand": "BrandY", "color": "Silver"}, "price": 1000, "tax_rate": 0.10},
+    {"product_id": "P003", "description": "Tablet", "attribute": {"brand": "BrandZ", "color": "White"}, "price": 300, "tax_rate": 0.08},
+    {"product_id": "P004", "description": "Headphones", "attribute": {"brand": "BrandA", "color": "Red"}, "price": 150, "tax_rate": 0.05}
+]

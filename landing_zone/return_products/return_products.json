@@ -1,0 +1,7 @@
+[
+    {"transaction_id": "T001", "customer_id": "C001", "return_product_id": "P003"},
+    {"transaction_id": "T033", "customer_id": "C014", "return_product_id": "P003"},
+    {"transaction_id": "T005", "customer_id": "C002", "return_product_id": "P003"},
+    {"transaction_id": "T017", "customer_id": "C007", "return_product_id": "P004"},
+    {"transaction_id": "T018", "customer_id": "C008", "return_product_id": "P001"}
+]

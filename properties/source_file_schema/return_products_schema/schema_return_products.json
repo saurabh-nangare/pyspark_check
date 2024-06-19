@@ -1,0 +1,23 @@
+{
+  "type": "struct",
+  "fields": [
+    {
+      "name": "transaction_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "customer_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "return_product_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    }
+  ]
+}

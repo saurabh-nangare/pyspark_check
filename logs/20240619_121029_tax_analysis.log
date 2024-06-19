@@ -1,0 +1,6 @@
+2024-06-19 12:10:30,209 - root - INFO - driver - main - creating spark session
+2024-06-19 12:10:30,209 - Create_spark - INFO - create_spark - get_spark - started creating spark object
+2024-06-19 12:10:38,346 - Create_spark - INFO - create_spark - get_spark - created spark session
+2024-06-19 12:10:38,346 - root - INFO - driver - main - spark session has been created successfully
+2024-06-19 12:10:38,346 - root - INFO - driver - main - trying to read source dataframe for cutomers
+2024-06-19 12:10:38,346 - root - INFO - driver - main - trying to get schema for customer

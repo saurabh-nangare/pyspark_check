@@ -24,6 +24,7 @@ def get_source_dataframe(spark, schema, source_file_path):
         source_df = (spark.read
                      .schema(schema)
                      .json(source_file_path))
+        source_df = source_df.na.drop()
 
     except Exception as msg:
         logger.info('Can not source the dataframe because of this error == {}'.format(msg))

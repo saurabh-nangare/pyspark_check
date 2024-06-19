@@ -1,0 +1,57 @@
+{
+  "type": "struct",
+  "fields": [
+    {
+      "name": "product_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "attribute",
+      "type": {
+        "type": "struct",
+        "fields": [
+          {
+            "name": "brand",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+          },
+          {
+            "name": "model",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+          },
+          {
+            "name": "color",
+            "type": "string",
+            "nullable": true,
+            "metadata": {}
+          }
+        ]
+      },
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "price",
+      "type": "double",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "tax_rate",
+      "type": "double",
+      "nullable": true,
+      "metadata": {}
+    }
+  ]
+}

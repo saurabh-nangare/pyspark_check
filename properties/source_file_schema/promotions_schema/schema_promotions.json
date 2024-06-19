@@ -1,0 +1,39 @@
+{
+  "type": "struct",
+  "fields": [
+    {
+      "name": "promo_id",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "discount",
+      "type": "double",
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "applicable_products",
+      "type": {
+        "type": "array",
+        "elementType": "string",
+        "containsNull": true
+      },
+      "nullable": true,
+      "metadata": {}
+    },
+    {
+      "name": "membership_level",
+      "type": "string",
+      "nullable": true,
+      "metadata": {}
+    }
+  ]
+}

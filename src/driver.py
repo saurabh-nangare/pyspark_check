@@ -2,7 +2,8 @@ import create_log_path
 import os
 import sys
 from time import perf_counter
-from utils import get_schema_from_json_file, get_source_dataframe,get_all_source_df
+from utils import get_schema_from_json_file, get_source_dataframe
+from data_sourcing import get_all_source_df
 from data_transformations import get_common_product_set,get_final_transactions
 import get_variables as gav
 from create_spark import get_spark

@@ -1,8 +1,0 @@
-2024-06-19 08:27:47,140 - root - INFO - driver - main - creating spark session
-2024-06-19 08:27:47,140 - Create_spark - INFO - create_spark - get_spark - started creating spark object
-2024-06-19 08:27:58,029 - Create_spark - INFO - create_spark - get_spark - created spark session
-2024-06-19 08:27:58,030 - root - INFO - driver - main - spark session has been created successfully
-2024-06-19 08:27:58,030 - root - INFO - driver - main - trying to read source dataframe for cutomers
-2024-06-19 08:27:58,030 - root - INFO - driver - main - trying to get schema for customer
-2024-06-19 08:27:59,813 - Utils - INFO - utils - get_schema_from_json_file - can not read the schema file because of error [PATH_NOT_FOUND] Path does not exist: file:/C:/Users/saura/Desktop/pyspark_check/properties/source_file_schema/customers_schema/customers.json.
-2024-06-19 08:27:59,823 - Utils - INFO - utils - get_source_dataframe - Can not source the dataframe because of this error == [NOT_STR_OR_STRUCT] Argument `schema` should be a str or structType, got NoneType.

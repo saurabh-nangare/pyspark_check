@@ -3,13 +3,17 @@ import logging
 import logging.config
 import get_variables as gav
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType
-from pyspark.sql.functions import explode, col, collect_set, size, count, when, lit, sum as spark_sum, \
-    round as spark_round, when, avg as spark_avg
+from pyspark.sql.functions import (
+    explode, col, collect_set, size, count, when, lit, sum as spark_sum,
+    round as spark_round, avg as spark_avg
+)
+
 # Configuring the logger for Data transformations functions
 logging.config.fileConfig(gav.configs['logging_paths']['running_logconf_path'])
 logger = logging.getLogger('Data_transformations')
 
 
+# return-refund and discounts are scenarios has been handled already in this
 def get_final_transactions(customers_df, promotions_df, products_df, transactions_df, return_products_df):
     """
     We are trying to get the final transactions dataframe.
@@ -18,7 +22,7 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
     try:
         logger.info("Started calculating the final transactions dataframe")
 
-        # getting prodcuts and their quantity out from transactions dataframe
+        # getting products and their quantity out from transactions dataframe
         transactions_df_exploded = (
             transactions_df.withColumn("item", explode("items"))
             .select(
@@ -30,16 +34,13 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
                 "item.quantity"
             )
         )
-
         # Joining transactions with customers to get customer information
         transactions_customers_df_joined = transactions_df_exploded.join(customers_df, "customer_id")
-
         # Joining with products to get product details
         transactions_customers_products_df_joined = (
             transactions_customers_df_joined.join(products_df, "product_id")
             .withColumn("total_price_before_discount_tax", col("price") * col("quantity"))
         )
-
         # Join with promotions to decide if the discount will be applicable or not based on membership level
         transactions_customers_products_promos_df_joined = (
             transactions_customers_products_df_joined.join(
@@ -67,7 +68,6 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
                 when(promotions_df.discount.isNull(), lit(0)).otherwise(promotions_df.discount).alias("discount")
             )
         )
-
         # Calculating amounts after applying discounts and taxes
         transactions_customers_products_promos_prices = (
             transactions_customers_products_promos_df_joined
@@ -77,7 +77,6 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
             .withColumn("tax_amount", spark_round(col("total_price_after_discount") * col("tax_rate"), 2))
             .withColumn("total_price_after_discount_tax", spark_round(col("total_price_after_discount") + col("tax_amount"), 2))
         )
-
         # checking if the item has been placed for return or not and adjusting the amounts as per returns
         transactions_customers_products_promos_prices_returns_df = (
             transactions_customers_products_promos_prices.join(
@@ -105,8 +104,7 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
     return transactions_customers_products_promos_prices_returns_df
 
 
-#requirement - get the sales per transactions calculating the total price for items purchased.
-
+# requirement - get the sales per transactions calculating the total price for items purchased.
 def get_sales_agg_by_transactions(final_transaction_df):
     try:
         sales_agg_by_transactions_df = (
@@ -120,20 +118,21 @@ def get_sales_agg_by_transactions(final_transaction_df):
                     spark_sum(
                         when(col("is_returned") == True, col("total_price_after_discount_tax"))
                         .otherwise(0)
-                    ),2
+                    ), 2
                 )
                 .alias("sum_of_amount_returned")
-
             )
+            .orderBy(col("sum_of_total_amount_after_discount_tax").desc())
         )
 
     except Exception as msg:
-        logger.error("get_sales_agg_by_transactions has failed to get the aggregated dataframe,ERROR = {}".format(msg))
+        logger.error("get_sales_agg_by_transactions has failed to get the aggregated dataframe, ERROR = {}".format(msg))
         sales_agg_by_transactions_df = None
 
     return sales_agg_by_transactions_df
 
-#requirement - getting the tax amounts aggregation by transactions.
+
+# requirement - getting the tax amounts aggregation by transactions.
 def get_tax_agg_by_transactions(final_transaction_df):
     try:
         tax_agg_by_transactions_df = (
@@ -143,17 +142,18 @@ def get_tax_agg_by_transactions(final_transaction_df):
                     spark_sum(
                         when(col("is_returned") == False, col("tax_amount"))
                         .otherwise(0)
-                    ),2
+                    ), 2
                 )
                 .alias("non_returned_products_tax_amount"),
                 spark_round(
                     spark_sum(
                         when(col("is_returned") == True, col("tax_amount"))
                         .otherwise(0)
-                    ),2
+                    ), 2
                 )
                 .alias("returned_products_tax_amount")
             )
+            .orderBy(col("non_returned_products_tax_amount").desc())
         )
 
     except Exception as msg:
@@ -163,8 +163,7 @@ def get_tax_agg_by_transactions(final_transaction_df):
     return tax_agg_by_transactions_df
 
 
-
-#requirement = sales tax agg by day
+# requirement = sales tax agg by day
 def get_daily_sales_tax_summary(final_transaction_df):
     try:
         sales_tax_agg_by_day = (
@@ -185,14 +184,15 @@ def get_daily_sales_tax_summary(final_transaction_df):
                 spark_round(spark_sum("total_price_after_discount_tax"), 2)
                 .alias("sum_of_total_amount_after_discount_tax"),
                 spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
-                .alias("sum_of_amount_non_returned"),
+                .alias("sum_of_amount_non_returned_products"),
                 spark_round(
                     spark_sum(
                         when(col("is_returned") == True, col("total_price_after_discount_tax"))
                         .otherwise(0)
                     ), 2
-                ).alias("sum_of_amount_returned")
+                ).alias("sum_of_amount_returned_products")
             )
+            .orderBy(col("sum_of_amount_non_returned_products").desc())
         )
 
     except Exception as msg:
@@ -201,47 +201,52 @@ def get_daily_sales_tax_summary(final_transaction_df):
 
     return sales_tax_agg_by_day
 
-#total amount spent by custoemr
+
+# total amount spent by customer
 def get_amount_by_customer(final_transaction_df):
     try:
         amount_by_customer_df = (
-            final_transaction_df.groupBy("customer_id","year")
+            final_transaction_df.groupBy("customer_id", "year")
             .agg(
                 spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
                 .alias("sum_of_amount_spent_by_customer")
             )
+            .orderBy(col("customer_id").asc(), col("year").desc())
         )
 
     except Exception as msg:
-        logger.info("funtion get_amount_by_customer has failed ERROR: {}".format(msg))
+        logger.info("function get_amount_by_customer has failed ERROR: {}".format(msg))
         amount_by_customer_df = None
 
     return amount_by_customer_df
 
-#requirement get sales and tax details by products
+
+# requirement get sales and tax details by products
 def get_sales_tax_by_products(final_transaction_df):
     try:
         sales_tax_by_products_df = (
             final_transaction_df.groupBy("product_id")
             .agg(
                 spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
-                .alias("total_amount_per_products"),
+                .alias("total_sales_amount_per_products"),
                 spark_round(
                     spark_sum(
                         when(col("is_returned") == False, col("tax_amount"))
                         .otherwise(0)
                     ), 2
-                ).alias("non_returned_products_tax_amount")
+                ).alias("total_tax_amount_per_products")
             )
+            .orderBy(col("total_sales_amount_per_products").desc())
         )
 
     except Exception as msg:
-        logger.error("fucntion get_sales_tax_by_products has been failed Error : {}".format(msg))
+        logger.error("function get_sales_tax_by_products has been failed Error : {}".format(msg))
         sales_tax_by_products_df = None
 
     return sales_tax_by_products_df
 
-# requirement - getting common products that appers together in transactions
+
+# requirement - getting common products that appear together in transactions
 def get_common_product_set(transactions_df):
     try:
         logger.info("Started calculating common sets of products that appear together")
@@ -261,6 +266,7 @@ def get_common_product_set(transactions_df):
         product_list_df = None
 
     return product_list_df
+
 
 # requirement - getting sales by tax brackets
 def get_sales_by_tax_brackets(final_transaction_df):
@@ -282,13 +288,12 @@ def get_sales_by_tax_brackets(final_transaction_df):
 
     except Exception as e:
         logger.error(f"Error in calculating sales by tax brackets: {e}")
-        sales_by_tax_brackets_df =  None
+        sales_by_tax_brackets_df = None
 
     return sales_by_tax_brackets_df
 
 
-# requirement - getting promotional and non promotional analysis by membership_level
-
+# requirement - getting promotional and non-promotional analysis by membership level
 def get_sales_by_promotions_membership_level(final_transaction_df):
     try:
         sales_by_promotions_membership_level = (
@@ -298,17 +303,16 @@ def get_sales_by_promotions_membership_level(final_transaction_df):
                     spark_sum(
                         when(col("discount") > 0, col("total_price_after_discount_tax_return_check"))
                         .otherwise(0)
-                    ),2
+                    ), 2
                 )
                 .alias('total_sales_with_promotions'),
                 spark_round(
                     spark_sum(
                         when(col("discount") == 0, col("total_price_after_discount_tax_return_check"))
                         .otherwise(0)
-                    ),2
+                    ), 2
                 )
                 .alias("total_sales_without_promotions")
-
             )
         )
 
@@ -318,20 +322,35 @@ def get_sales_by_promotions_membership_level(final_transaction_df):
 
     return sales_by_promotions_membership_level
 
+
 def get_segments_on_expenditure_and_habits(final_transaction_df):
     try:
         segmenting_on_expenditure_df = (
-            final_transaction_df.groupBy("customer_id","year")
+            final_transaction_df.groupBy("customer_id", "year")
             .agg(
                 spark_round(
-                    spark_avg("total_price_after_discount_tax_return_check"),2
+                    spark_avg("total_price_after_discount_tax_return_check"), 2
                 )
                 .alias("avg_customer_expenditure_yearly")
+            )
+            .withColumn(
+                "customer_expenditure_segmentation",
+                when(
+                    (col("avg_customer_expenditure_yearly") >= 0) &
+                    (col("avg_customer_expenditure_yearly") <= 500),
+                    lit("low_expenditure_tier")
+                )
+                .when(
+                    (col("avg_customer_expenditure_yearly") > 500) &
+                    (col("avg_customer_expenditure_yearly") <= 1000),
+                    lit("medium_expenditure_tier")
+                )
+                .otherwise(lit("high_expenditure_tier"))
             )
         )
 
     except Exception as msg:
-        logger.info("the segmenting_on_expenditure_df has failed ERROR : {}".format(msg))
+        logger.info("the segmenting_on_expenditure_df has failed ERROR: {}".format(msg))
         segmenting_on_expenditure_df = None
 
     try:
@@ -339,7 +358,7 @@ def get_segments_on_expenditure_and_habits(final_transaction_df):
             final_transaction_df.withColumn(
                 "brand_of_product", col("attribute.brand")
             )
-            .groupBy("customer_id","brand_of_product")
+            .groupBy("customer_id", "brand_of_product")
             .agg(
                 count(col("product_id")).alias("no_of_times_customer_purchased_brand")
             )
@@ -347,7 +366,44 @@ def get_segments_on_expenditure_and_habits(final_transaction_df):
         )
 
     except Exception as msg:
-        logger.info("the segmenting_on_habits_df has failed ERROR : {}".format(msg))
+        logger.info("the segmenting_on_habits_df has failed ERROR: {}".format(msg))
         segmenting_on_habits_df = None
 
-    return (segmenting_on_expenditure_df,segmenting_on_habits_df)
+    return segmenting_on_expenditure_df, segmenting_on_habits_df
+
+
+def get_sales_tax_by_geographic(final_transaction_df):
+    try:
+        sales_tax_by_geographic = (
+            final_transaction_df.groupBy("geographic_region","year")
+            .agg(
+                spark_round(
+                    spark_sum(col("total_price_after_discount_tax_return_check")),2
+                )
+                .alias("total_sales_per_geographic_region_per_year"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == False, col("tax_amount"))
+                    ), 2
+                )
+                .alias("total_tax_per_geographic_region_per_year")
+            )
+            .withColumn("performance_per_geographic_region",
+                when(
+                    (col("total_sales_per_geographic_region_per_year") >= 0) &
+                    (col("total_sales_per_geographic_region_per_year") <= 3000),
+                    lit('low_performing_geographic_location')
+                )
+                .otherwise(lit("high_performing_geographic_location"))
+            )
+            .orderBy(
+                col("total_sales_per_geographic_region_per_year").desc(),
+                col("total_tax_per_geographic_region_per_year").desc()
+            )
+        )
+
+    except Exception as msg:
+        logger.error("get_sales_tax_by_geographic has failed due to ERROR : {}".format(msg))
+        sales_tax_by_geographic = None
+
+    return sales_tax_by_geographic

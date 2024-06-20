@@ -40,4 +40,24 @@ def get_source_dataframe(spark, schema, source_file_path):
     return source_df
 
 
+def dataframe_writer(df,output_path,**kwargs):
+    try:
+        logger.info("trying to get the path for dataframe")
+        df_name = None
+        for name, value in kwargs['locals'].items():
+            if value is df:
+                df_name = name
+                break
+
+        output_path = output_path+df_name
+        logger.info('path has been defined to write the dataframe {}'.format(output_path))
+
+        logger.info("started writing the dataframe")
+        df.coalesce(1).write.mode('overwrite').json(output_path)
+        logger.info("dataframe writer has wrote the files at the destination")
+
+    except Exception as msg:
+        logger.error("dataframe_writer has been failed for writing {}, Error: {}".format(str(name),msg))
+
+
 

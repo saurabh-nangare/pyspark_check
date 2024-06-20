@@ -4,6 +4,7 @@ import configparser
 configs = configparser.ConfigParser()
 configs.read(r'C:\Users\saura\Desktop\pyspark_check\properties\configurations\project_configs.ini')
 
+
 def create_log_path(initial_logconf_path,running_logconf_path, running_log_dir):
     # Generate the dynamic filename with an absolute path
     run_start_time = datetime.now().strftime('%Y%m%d_%H%M%S')

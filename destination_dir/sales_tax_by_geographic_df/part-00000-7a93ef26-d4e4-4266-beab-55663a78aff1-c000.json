@@ -1,0 +1,8 @@
+{"geographic_region":"South","year":2022,"total_sales_per_geographic_region_per_year":8521.35,"total_tax_per_geographic_region_per_year":876.35,"performance_per_geographic_region":"high_performing_geographic_location"}
+{"geographic_region":"North","year":2022,"total_sales_per_geographic_region_per_year":6091.5,"total_tax_per_geographic_region_per_year":641.5,"performance_per_geographic_region":"high_performing_geographic_location"}
+{"geographic_region":"North","year":2023,"total_sales_per_geographic_region_per_year":4784.4,"total_tax_per_geographic_region_per_year":449.4,"performance_per_geographic_region":"high_performing_geographic_location"}
+{"geographic_region":"East","year":2023,"total_sales_per_geographic_region_per_year":4646.4,"total_tax_per_geographic_region_per_year":401.4,"performance_per_geographic_region":"high_performing_geographic_location"}
+{"geographic_region":"West","year":2023,"total_sales_per_geographic_region_per_year":4105.4,"total_tax_per_geographic_region_per_year":450.4,"performance_per_geographic_region":"high_performing_geographic_location"}
+{"geographic_region":"East","year":2022,"total_sales_per_geographic_region_per_year":2998.4,"total_tax_per_geographic_region_per_year":243.4,"performance_per_geographic_region":"low_performing_geographic_location"}
+{"geographic_region":"West","year":2022,"total_sales_per_geographic_region_per_year":2149.0,"total_tax_per_geographic_region_per_year":199.0,"performance_per_geographic_region":"low_performing_geographic_location"}
+{"geographic_region":"South","year":2023,"total_sales_per_geographic_region_per_year":1950.5,"total_tax_per_geographic_region_per_year":140.5,"performance_per_geographic_region":"low_performing_geographic_location"}

@@ -1,8 +1,6 @@
-import json
 import logging
 import logging.config
 import get_variables as gav
-from pyspark.sql.types import StructType, StructField, StringType, ArrayType
 from pyspark.sql.functions import (
     explode, col, collect_set, size, count, when, lit, sum as spark_sum,
     round as spark_round, avg as spark_avg
@@ -266,6 +264,24 @@ def get_common_product_set(transactions_df):
         product_list_df = None
 
     return product_list_df
+
+
+def get_discount_structure(final_transaction_df):
+    """
+    discount scenarios are already handled while calculating
+    transactions_customers_products_promos_prices_returns_df in get_final_transactions function
+    """
+    get_discount_structure_df = final_transaction_df
+    return get_discount_structure_df
+
+
+def get_returns(final_transaction_df):
+    """
+    return products scenarios are already handled while calculating
+    transactions_customers_products_promos_prices_returns_df in get_final_transactions function
+    """
+    returns_df = final_transaction_df
+    return returns_df
 
 
 # requirement - getting sales by tax brackets

@@ -1,0 +1,110 @@
+2024-06-21 00:30:37,623 - root - INFO - driver - main - creating spark session
+2024-06-21 00:30:37,623 - Create_spark - INFO - create_spark - get_spark - started creating spark object
+2024-06-21 00:30:45,623 - Create_spark - INFO - create_spark - get_spark - created spark session
+2024-06-21 00:30:45,623 - root - INFO - driver - main - spark session has been created successfully
+2024-06-21 00:30:45,623 - root - INFO - driver - main - trying to read source dataframe for cutomers
+2024-06-21 00:30:45,623 - root - INFO - driver - main - trying to get schema for customer
+2024-06-21 00:30:45,623 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\customers_schema\schema_customers.json
+2024-06-21 00:30:48,133 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\customers_schema\schema_customers.json
+2024-06-21 00:30:48,133 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-21 00:30:48,170 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-21 00:30:48,170 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-21 00:30:48,190 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-21 00:30:48,190 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\promotions_schema\schema_promotions.json
+2024-06-21 00:30:48,273 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\promotions_schema\schema_promotions.json
+2024-06-21 00:30:48,273 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-21 00:30:48,298 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-21 00:30:48,298 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-21 00:30:48,306 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-21 00:30:48,348 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\products_schema\schema_products.json
+2024-06-21 00:30:48,467 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\products_schema\schema_products.json
+2024-06-21 00:30:48,467 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-21 00:30:48,534 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-21 00:30:48,534 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-21 00:30:48,552 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-21 00:30:48,552 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\transactions_schema\schema_transactions.json
+2024-06-21 00:30:48,644 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\transactions_schema\schema_transactions.json
+2024-06-21 00:30:48,644 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-21 00:30:48,674 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-21 00:30:48,674 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-21 00:30:48,688 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-21 00:30:48,720 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\return_products_schema\schema_return_products.json
+2024-06-21 00:30:48,805 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\return_products_schema\schema_return_products.json
+2024-06-21 00:30:48,805 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-21 00:30:48,823 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-21 00:30:48,823 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-21 00:30:48,829 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-21 00:30:50,492 - Data_transformations - INFO - data_transformations - get_final_transactions - Started calculating the final transactions dataframe
+2024-06-21 00:30:50,791 - root - INFO - driver - main - printing transactions_customers_products_promos_prices_returns_df dataframe
+2024-06-21 00:30:51,468 - root - INFO - driver - main - showing sales_agg_by_transactions_df
+2024-06-21 00:30:52,455 - root - INFO - driver - main - trying to write df === sales_agg_by_transactions_df
+2024-06-21 00:30:52,455 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:52,456 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_agg_by_transactions_df
+2024-06-21 00:30:52,456 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:53,182 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:53,182 - root - INFO - driver - main - completed writing df === sales_agg_by_transactions_df
+2024-06-21 00:30:53,214 - root - INFO - driver - main - showing tax_agg_by_transactions_df
+2024-06-21 00:30:53,663 - root - INFO - driver - main - trying to write df === tax_agg_by_transactions_df
+2024-06-21 00:30:53,663 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:53,663 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\tax_agg_by_transactions_df
+2024-06-21 00:30:53,663 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:54,099 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:54,099 - root - INFO - driver - main - completed writing df === tax_agg_by_transactions_df
+2024-06-21 00:30:54,154 - root - INFO - driver - main - showing sales_tax_agg_by_day
+2024-06-21 00:30:54,630 - root - INFO - driver - main - trying to write df === sales_tax_agg_by_day
+2024-06-21 00:30:54,630 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:54,630 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_tax_agg_by_day
+2024-06-21 00:30:54,630 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:55,147 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:55,147 - root - INFO - driver - main - completed writing df === sales_tax_agg_by_day
+2024-06-21 00:30:55,168 - root - INFO - driver - main - showing amount_by_customer_df
+2024-06-21 00:30:55,513 - root - INFO - driver - main - trying to write df === amount_by_customer_df
+2024-06-21 00:30:55,513 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:55,513 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\amount_by_customer_df
+2024-06-21 00:30:55,513 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:56,017 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:56,017 - root - INFO - driver - main - completed writing df === amount_by_customer_df
+2024-06-21 00:30:56,049 - root - INFO - driver - main - showing sales_tax_by_products_df
+2024-06-21 00:30:56,331 - root - INFO - driver - main - trying to write df === sales_tax_by_products_df
+2024-06-21 00:30:56,331 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:56,331 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_tax_by_products_df
+2024-06-21 00:30:56,331 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:56,681 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:56,681 - root - INFO - driver - main - completed writing df === sales_tax_by_products_df
+2024-06-21 00:30:56,681 - Data_transformations - INFO - data_transformations - get_common_product_set - Started calculating common sets of products that appear together
+2024-06-21 00:30:56,717 - root - INFO - driver - main - printing product_list_df dataframe
+2024-06-21 00:30:57,029 - root - INFO - driver - main - trying to write df === frequent_product_list_df
+2024-06-21 00:30:57,029 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:57,029 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\frequent_product_list_df
+2024-06-21 00:30:57,029 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:57,392 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:57,392 - root - INFO - driver - main - completed writing df === frequent_product_list_df
+2024-06-21 00:30:57,423 - root - INFO - driver - main - showing sales_by_tax_brackets
+2024-06-21 00:30:57,743 - root - INFO - driver - main - trying to write df === sales_by_tax_brackets_df
+2024-06-21 00:30:57,743 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:57,743 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_by_tax_brackets_df
+2024-06-21 00:30:57,743 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:58,061 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:58,061 - root - INFO - driver - main - completed writing df === sales_by_tax_brackets_df
+2024-06-21 00:30:58,087 - root - INFO - driver - main - showing sales_by_promotions_membership_level
+2024-06-21 00:30:58,391 - root - INFO - driver - main - trying to write df === sales_by_promotions_membership_level
+2024-06-21 00:30:58,391 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:58,391 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_by_promotions_membership_level
+2024-06-21 00:30:58,391 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:58,581 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:58,581 - root - INFO - driver - main - completed writing df === sales_by_promotions_membership_level
+2024-06-21 00:30:58,643 - root - INFO - driver - main - showing segmenting_on_expenditure_df
+2024-06-21 00:30:58,936 - root - INFO - driver - main - showing segmenting_on_habits_df
+2024-06-21 00:30:59,292 - root - INFO - driver - main - trying to write df === segmenting_on_habits_df
+2024-06-21 00:30:59,292 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:59,292 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\segmenting_on_habits_df
+2024-06-21 00:30:59,292 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:30:59,625 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:30:59,625 - root - INFO - driver - main - completed writing df === segmenting_on_habits_df
+2024-06-21 00:30:59,659 - root - INFO - driver - main - showing sales_tax_by_geographic_df
+2024-06-21 00:30:59,975 - root - INFO - driver - main - trying to write df === sales_tax_by_geographic_df
+2024-06-21 00:30:59,975 - Utils - INFO - utils - dataframe_writer - trying to get the path for dataframe
+2024-06-21 00:30:59,975 - Utils - INFO - utils - dataframe_writer - path has been defined to write the dataframe C:\Users\saura\Desktop\pyspark_check\destination_dir\sales_tax_by_geographic_df
+2024-06-21 00:30:59,975 - Utils - INFO - utils - dataframe_writer - started writing the dataframe
+2024-06-21 00:31:00,322 - Utils - INFO - utils - dataframe_writer - dataframe writer has wrote the files at the destination
+2024-06-21 00:31:00,322 - root - INFO - driver - main - completed writing df === sales_tax_by_geographic_df

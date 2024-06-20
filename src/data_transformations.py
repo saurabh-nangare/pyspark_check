@@ -4,7 +4,7 @@ import logging.config
 import get_variables as gav
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType
 from pyspark.sql.functions import explode, col, collect_set, size, count, when, lit, sum as spark_sum, \
-    round as spark_round, when
+    round as spark_round, when, avg as spark_avg
 # Configuring the logger for Data transformations functions
 logging.config.fileConfig(gav.configs['logging_paths']['running_logconf_path'])
 logger = logging.getLogger('Data_transformations')
@@ -241,10 +241,7 @@ def get_sales_tax_by_products(final_transaction_df):
 
     return sales_tax_by_products_df
 
-
-
-
-#requirement - getting common products that appers together in transactions
+# requirement - getting common products that appers together in transactions
 def get_common_product_set(transactions_df):
     try:
         logger.info("Started calculating common sets of products that appear together")
@@ -264,3 +261,89 @@ def get_common_product_set(transactions_df):
         product_list_df = None
 
     return product_list_df
+
+# requirement - getting sales by tax brackets
+def get_sales_by_tax_brackets(final_transaction_df):
+    try:
+        sales_by_tax_brackets_df = (
+            final_transaction_df
+            .withColumn(
+                "tax_brackets",
+                when((col("tax_rate") >= 0) & (col("tax_rate") <= 0.1), "0 - 0.1")
+                .when((col("tax_rate") > 0.1) & (col("tax_rate") <= 0.2), "0.11 - 0.2")
+                .otherwise('others')
+            )
+            .groupBy("tax_brackets")
+            .agg(
+                spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
+                .alias("total_sales_by_tax_brackets")
+            )
+        )
+
+    except Exception as e:
+        logger.error(f"Error in calculating sales by tax brackets: {e}")
+        sales_by_tax_brackets_df =  None
+
+    return sales_by_tax_brackets_df
+
+
+# requirement - getting promotional and non promotional analysis by membership_level
+
+def get_sales_by_promotions_membership_level(final_transaction_df):
+    try:
+        sales_by_promotions_membership_level = (
+            final_transaction_df.groupBy("membership_level")
+            .agg(
+                spark_round(
+                    spark_sum(
+                        when(col("discount") > 0, col("total_price_after_discount_tax_return_check"))
+                        .otherwise(0)
+                    ),2
+                )
+                .alias('total_sales_with_promotions'),
+                spark_round(
+                    spark_sum(
+                        when(col("discount") == 0, col("total_price_after_discount_tax_return_check"))
+                        .otherwise(0)
+                    ),2
+                )
+                .alias("total_sales_without_promotions")
+
+            )
+        )
+
+    except Exception as msg:
+        logger.error("function get_sales_by_promotions_membership_level has failed with error: {}".format(msg))
+        sales_by_promotions_membership_level = None
+
+    return sales_by_promotions_membership_level
+
+def get_segments_on_expenditure_and_habits(final_transaction_df):
+    try:
+        segmenting_on_expenditure_df = (
+            final_transaction_df.groupBy("customer_id","year")
+            .agg(
+                spark_round(
+                    spark_avg("total_price_after_discount_tax_return_check"),2
+                )
+                .alias("avg_customer_expenditure_yearly")
+            )
+        )
+
+        segmenting_on_habits_df = (
+            final_transaction_df.withColumn(
+                "brand_of_product", col("attribute.brand")
+            )
+            .groupBy("customer_id","brand_of_product")
+            .agg(
+                count(col("product_id")).alias("no_of_times_customer_purchased_brand")
+            )
+            .orderBy(col('no_of_times_customer_purchased_brand').desc())
+        )
+
+    except Exception as msg:
+        logger.info("the segmenting_on_expenditure_df has failed ERROR : {}".format(msg))
+        segmenting_on_expenditure_df = None
+        segmenting_on_habits_df = None
+
+    return (segmenting_on_expenditure_df,segmenting_on_habits_df)

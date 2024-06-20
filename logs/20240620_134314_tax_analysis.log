@@ -1,0 +1,45 @@
+2024-06-20 13:43:14,953 - root - INFO - driver - main - creating spark session
+2024-06-20 13:43:14,953 - Create_spark - INFO - create_spark - get_spark - started creating spark object
+2024-06-20 13:43:23,285 - Create_spark - INFO - create_spark - get_spark - created spark session
+2024-06-20 13:43:23,285 - root - INFO - driver - main - spark session has been created successfully
+2024-06-20 13:43:23,285 - root - INFO - driver - main - trying to read source dataframe for cutomers
+2024-06-20 13:43:23,285 - root - INFO - driver - main - trying to get schema for customer
+2024-06-20 13:43:23,286 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\customers_schema\schema_customers.json
+2024-06-20 13:43:25,716 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\customers_schema\schema_customers.json
+2024-06-20 13:43:25,716 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-20 13:43:25,751 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-20 13:43:25,752 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-20 13:43:25,769 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\customers\customers.json
+2024-06-20 13:43:25,769 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\promotions_schema\schema_promotions.json
+2024-06-20 13:43:25,851 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\promotions_schema\schema_promotions.json
+2024-06-20 13:43:25,851 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-20 13:43:25,878 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-20 13:43:25,879 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-20 13:43:25,887 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\promotions\
+2024-06-20 13:43:25,928 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\products_schema\schema_products.json
+2024-06-20 13:43:25,995 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\products_schema\schema_products.json
+2024-06-20 13:43:25,995 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-20 13:43:26,042 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-20 13:43:26,042 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-20 13:43:26,051 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\products\
+2024-06-20 13:43:26,051 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\transactions_schema\schema_transactions.json
+2024-06-20 13:43:26,130 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\transactions_schema\schema_transactions.json
+2024-06-20 13:43:26,130 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-20 13:43:26,148 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-20 13:43:26,149 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-20 13:43:26,155 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\transactions\transactions.json
+2024-06-20 13:43:26,174 - Utils - INFO - utils - get_schema_from_json_file - trying to get schema for C:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\return_products_schema\schema_return_products.json
+2024-06-20 13:43:26,235 - Utils - INFO - utils - get_schema_from_json_file - schema has been created forC:\Users\saura\Desktop\pyspark_check\properties\source_file_schema\return_products_schema\schema_return_products.json
+2024-06-20 13:43:26,235 - Utils - INFO - utils - get_source_dataframe - trying to create dataframe forC:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-20 13:43:26,252 - Utils - INFO - utils - get_source_dataframe - dataframe has been created for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-20 13:43:26,253 - Utils - INFO - utils - get_source_dataframe - dropping null records if any for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-20 13:43:26,259 - Utils - INFO - utils - get_source_dataframe - dropping null records if any has been completed for C:\Users\saura\Desktop\pyspark_check\landing_zone\return_products\return_products.json
+2024-06-20 13:43:27,822 - Data_transformations - INFO - data_transformations - get_common_product_set - Started calculating common sets of products that appear together
+2024-06-20 13:43:27,950 - root - INFO - driver - main - printing product_list_df dataframe
+2024-06-20 13:43:28,734 - Data_transformations - INFO - data_transformations - get_final_transactions - Started calculating the final transactions dataframe
+2024-06-20 13:43:28,966 - root - INFO - driver - main - printing transactions_customers_products_promos_prices_returns_df dataframe
+2024-06-20 13:43:29,503 - root - INFO - driver - main - showing sales_agg_by_transactions_df
+2024-06-20 13:43:30,089 - root - INFO - driver - main - showing tax_agg_by_transactions_df
+2024-06-20 13:43:30,559 - root - INFO - driver - main - showing sales_tax_agg_by_day
+2024-06-20 13:43:31,061 - root - INFO - driver - main - showing amount_by_customer_df
+2024-06-20 13:43:31,499 - root - INFO - driver - main - showing sales_tax_by_products_df

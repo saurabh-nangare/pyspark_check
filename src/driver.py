@@ -1,10 +1,13 @@
+import logging
+
 import create_log_path
 import os
 import sys
 from time import perf_counter
 from utils import get_schema_from_json_file, get_source_dataframe
 from data_sourcing import get_all_source_df
-from data_transformations import get_common_product_set,get_final_transactions
+from data_transformations import get_common_product_set,get_final_transactions,get_sales_agg_by_transactions,\
+    get_tax_agg_by_transactions,get_daily_sales_tax_summary,get_amount_by_customer,get_sales_tax_by_products
 import get_variables as gav
 from create_spark import get_spark
 import logging.config
@@ -46,6 +49,36 @@ def main():
     logging.info("printing transactions_customers_products_promos_prices_returns_df dataframe")
     transactions_customers_products_promos_prices_returns_df.show()
     transactions_customers_products_promos_prices_returns_df.printSchema()
+
+    #requirement - getting common products that appers together in transactions
+    sales_agg_by_transactions_df = get_sales_agg_by_transactions(transactions_customers_products_promos_prices_returns_df)
+    logging.info("showing sales_agg_by_transactions_df")
+    sales_agg_by_transactions_df.show(truncate=False)
+    sales_agg_by_transactions_df.printSchema()
+
+    # requirement - getting the tax amounts aggregation by transactions.
+    tax_agg_by_transactions_df = get_tax_agg_by_transactions(transactions_customers_products_promos_prices_returns_df)
+    logging.info("showing tax_agg_by_transactions_df")
+    tax_agg_by_transactions_df.show(truncate=False)
+    tax_agg_by_transactions_df.printSchema()
+
+    # requirement = sales tax agg by day
+    sales_tax_agg_by_day = get_daily_sales_tax_summary(transactions_customers_products_promos_prices_returns_df)
+    logging.info("showing sales_tax_agg_by_day")
+    sales_tax_agg_by_day.show(truncate=False)
+    sales_tax_agg_by_day.printSchema()
+
+    # total amount spent by customer
+    amount_by_customer_df = get_amount_by_customer(transactions_customers_products_promos_prices_returns_df)
+    logging.info("showing amount_by_customer_df")
+    amount_by_customer_df.show(truncate=False)
+    amount_by_customer_df.printSchema()
+
+    # requirement get sales and tax details by products
+    sales_tax_by_products_df = get_sales_tax_by_products(transactions_customers_products_promos_prices_returns_df)
+    logging.info("showing sales_tax_by_products_df")
+    sales_tax_by_products_df.show(truncate=False)
+    sales_tax_by_products_df.printSchema()
 
 
 if __name__ == '__main__':

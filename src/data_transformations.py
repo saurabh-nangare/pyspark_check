@@ -4,8 +4,7 @@ import logging.config
 import get_variables as gav
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType
 from pyspark.sql.functions import explode, col, collect_set, size, count, when, lit, sum as spark_sum, \
-    round as spark_round
-
+    round as spark_round, when
 # Configuring the logger for Data transformations functions
 logging.config.fileConfig(gav.configs['logging_paths']['running_logconf_path'])
 logger = logging.getLogger('Data_transformations')
@@ -69,17 +68,17 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
             )
         )
 
-        # Calculate prices after discount and tax
+        # Calculating amounts after applying discounts and taxes
         transactions_customers_products_promos_prices = (
             transactions_customers_products_promos_df_joined
             .withColumn("discount_amount", spark_round(col("total_price_before_discount_tax") * col("discount"), 2))
             .withColumn("total_price_after_discount",
                         spark_round(col("total_price_before_discount_tax") - col("discount_amount"), 2))
             .withColumn("tax_amount", spark_round(col("total_price_after_discount") * col("tax_rate"), 2))
-            .withColumn("total_price_after_tax", spark_round(col("total_price_after_discount") + col("tax_amount"), 2))
+            .withColumn("total_price_after_discount_tax", spark_round(col("total_price_after_discount") + col("tax_amount"), 2))
         )
 
-        # Handle returns
+        # checking if the item has been placed for return or not and adjusting the amounts as per returns
         transactions_customers_products_promos_prices_returns_df = (
             transactions_customers_products_promos_prices.join(
                 return_products_df,
@@ -89,13 +88,13 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
             )
             .withColumn("is_returned", when(col("return_product_id").isNotNull(), True).otherwise(False))
             .withColumn(
-                "total_price_after_tax_after_return_check",
-                when(col("is_returned"), 0).otherwise(col("total_price_after_tax"))
+                "total_price_after_discount_tax_return_check",
+                when(col("is_returned"), 0).otherwise(col("total_price_after_discount_tax"))
             )
             .select(
                 transactions_customers_products_promos_prices["*"],
                 col("is_returned"),
-                col("total_price_after_tax_after_return_check")
+                col("total_price_after_discount_tax_return_check")
             )
         )
 
@@ -106,6 +105,146 @@ def get_final_transactions(customers_df, promotions_df, products_df, transaction
     return transactions_customers_products_promos_prices_returns_df
 
 
+#requirement - get the sales per transactions calculating the total price for items purchased.
+
+def get_sales_agg_by_transactions(final_transaction_df):
+    try:
+        sales_agg_by_transactions_df = (
+            final_transaction_df.groupBy("transaction_id")
+            .agg(
+                spark_round(spark_sum("total_price_after_discount_tax"), 2)
+                .alias("sum_of_total_amount_after_discount_tax"),
+                spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
+                .alias("sum_of_amount_non_returned"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == True, col("total_price_after_discount_tax"))
+                        .otherwise(0)
+                    ),2
+                )
+                .alias("sum_of_amount_returned")
+
+            )
+        )
+
+    except Exception as msg:
+        logger.error("get_sales_agg_by_transactions has failed to get the aggregated dataframe,ERROR = {}".format(msg))
+        sales_agg_by_transactions_df = None
+
+    return sales_agg_by_transactions_df
+
+#requirement - getting the tax amounts aggregation by transactions.
+def get_tax_agg_by_transactions(final_transaction_df):
+    try:
+        tax_agg_by_transactions_df = (
+            final_transaction_df.groupBy("transaction_id")
+            .agg(
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == False, col("tax_amount"))
+                        .otherwise(0)
+                    ),2
+                )
+                .alias("non_returned_products_tax_amount"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == True, col("tax_amount"))
+                        .otherwise(0)
+                    ),2
+                )
+                .alias("returned_products_tax_amount")
+            )
+        )
+
+    except Exception as msg:
+        logger.error("function has failed to create tax_agg_by_transactions_df ERROR = {}".format(msg))
+        tax_agg_by_transactions_df = None
+
+    return tax_agg_by_transactions_df
+
+
+
+#requirement = sales tax agg by day
+def get_daily_sales_tax_summary(final_transaction_df):
+    try:
+        sales_tax_agg_by_day = (
+            final_transaction_df.groupBy("date")
+            .agg(
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == False, col("tax_amount"))
+                        .otherwise(0)
+                    ), 2
+                ).alias("non_returned_products_tax_amount"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == True, col("tax_amount"))
+                        .otherwise(0)
+                    ), 2
+                ).alias("returned_products_tax_amount"),
+                spark_round(spark_sum("total_price_after_discount_tax"), 2)
+                .alias("sum_of_total_amount_after_discount_tax"),
+                spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
+                .alias("sum_of_amount_non_returned"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == True, col("total_price_after_discount_tax"))
+                        .otherwise(0)
+                    ), 2
+                ).alias("sum_of_amount_returned")
+            )
+        )
+
+    except Exception as msg:
+        logger.error("function get_daily_sales_tax_summary has failed ERROR = {}".format(msg))
+        sales_tax_agg_by_day = None
+
+    return sales_tax_agg_by_day
+
+#total amount spent by custoemr
+def get_amount_by_customer(final_transaction_df):
+    try:
+        amount_by_customer_df = (
+            final_transaction_df.groupBy("customer_id","year")
+            .agg(
+                spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
+                .alias("sum_of_amount_spent_by_customer")
+            )
+        )
+
+    except Exception as msg:
+        logger.info("funtion get_amount_by_customer has failed ERROR: {}".format(msg))
+        amount_by_customer_df = None
+
+    return amount_by_customer_df
+
+#requirement get sales and tax details by products
+def get_sales_tax_by_products(final_transaction_df):
+    try:
+        sales_tax_by_products_df = (
+            final_transaction_df.groupBy("product_id")
+            .agg(
+                spark_round(spark_sum("total_price_after_discount_tax_return_check"), 2)
+                .alias("total_amount_per_products"),
+                spark_round(
+                    spark_sum(
+                        when(col("is_returned") == False, col("tax_amount"))
+                        .otherwise(0)
+                    ), 2
+                ).alias("non_returned_products_tax_amount")
+            )
+        )
+
+    except Exception as msg:
+        logger.error("fucntion get_sales_tax_by_products has been failed Error : {}".format(msg))
+        sales_tax_by_products_df = None
+
+    return sales_tax_by_products_df
+
+
+
+
+#requirement - getting common products that appers together in transactions
 def get_common_product_set(transactions_df):
     try:
         logger.info("Started calculating common sets of products that appear together")

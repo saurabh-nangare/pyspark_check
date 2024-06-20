@@ -330,6 +330,11 @@ def get_segments_on_expenditure_and_habits(final_transaction_df):
             )
         )
 
+    except Exception as msg:
+        logger.info("the segmenting_on_expenditure_df has failed ERROR : {}".format(msg))
+        segmenting_on_expenditure_df = None
+
+    try:
         segmenting_on_habits_df = (
             final_transaction_df.withColumn(
                 "brand_of_product", col("attribute.brand")
@@ -342,8 +347,7 @@ def get_segments_on_expenditure_and_habits(final_transaction_df):
         )
 
     except Exception as msg:
-        logger.info("the segmenting_on_expenditure_df has failed ERROR : {}".format(msg))
-        segmenting_on_expenditure_df = None
+        logger.info("the segmenting_on_habits_df has failed ERROR : {}".format(msg))
         segmenting_on_habits_df = None
 
     return (segmenting_on_expenditure_df,segmenting_on_habits_df)

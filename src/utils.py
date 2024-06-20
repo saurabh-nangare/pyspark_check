@@ -57,7 +57,7 @@ def dataframe_writer(df,output_path,**kwargs):
         logger.info("dataframe writer has wrote the files at the destination")
 
     except Exception as msg:
-        logger.error("dataframe_writer has been failed for writing {}, Error: {}".format(str(name),msg))
+        logger.error("dataframe_writer has been failed for writing {}, Error: {}".format(str(df_name),msg))
 
 
 
